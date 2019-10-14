@@ -7,14 +7,14 @@ import java.util.Scanner;
 
 public class JavaLibraryCodeSql { // JDBC driver name and database URL
    static final String JDBC_DRIVER = "org.apache.derby.jdbc.ClientDriver";
-   static final String DB_URL = "jdbc:derby://localhost:1527/WritingProjects";
+   static final String DB_URL = "jdbc:derby://localhost:1527/virtualLibrary";
 
    //  Database credentials
-   static final String USER = "newuser";
-   static final String PASS = "newpass";
+   static final String USER = "books";
+   static final String PASS = "books123";
    
    //main menu list
-   private final static String LIST = ("Select One of the following options(insert the number):\n1. "
+   private final static String LIST = ("Select One of the following options (insert a number):\n1. "
 	+ "List all writing groups\n2. List all the data for a specific group"
 	+ "\n3. List all Publishers\n4. List all the data for a specific publisher"
 	+ "\n5. List all book titles\n6. List all the data for a specific book"
@@ -30,13 +30,14 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
 	Scanner inputs = new Scanner (System.in);
 	String userInput;
 	try {
-            System.out.println(LIST);
+            System.out.println(LIST + "\n");
+            System.out.println("Enter an option: ");
             userInput = inputs.nextLine();
 	}
 		 
 	//catch exception if input isn't an int
-	catch(InputMismatchException exception) {
-            System.out.println("That is not a valid input please input a number.");
+	catch(InputMismatchException | NumberFormatException exception) {
+            System.out.println("That is not a valid input, please input a number.");
             return 0;
 	}
 		 
@@ -58,14 +59,26 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
         
         //option to list all writing groups-----------------------------------------
 	if (Option == 1) {
-            //STEP 4: Execute a query
+            
             try{
+                
+            //STEP 2: Register JDBC driver
+            Class.forName(JDBC_DRIVER);
+
+            //STEP 3: Open a connection
+            System.out.println("Connecting to database...");
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            
+            //STEP 4: Execute a query
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
+            
             String sql;
             sql = "SELECT groupName, headWriter, yearFormed, subject FROM WritingGroup";
             ResultSet rs = stmt.executeQuery(sql);
+            
             //STEP 5: Extract data from result set
+            int groupCount = 1;
             while(rs.next()){
                 //Retrieve by column name
                 String groupName  = rs.getString("groupName");
@@ -74,11 +87,13 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
                 //String subject = rs.getString("subject");
 
                 //Display values
-                System.out.println("Group: " + groupName);
+                System.out.println("Group #" + groupCount + ": " + groupName);
                 //System.out.print(", Head Writer: " + headWriter);
                 //System.out.print(", Year Made: " + year);
                 //System.out.println(", Subject: " + subject);
+                groupCount++;
             }
+            System.out.println();
             //STEP 6: Clean-up environment
             rs.close();
             stmt.close();
