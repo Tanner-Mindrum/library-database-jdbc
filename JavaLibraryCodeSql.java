@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public class JavaLibraryCodeSql { // JDBC driver name and database URL
    static final String JDBC_DRIVER = "org.apache.derby.jdbc.ClientDriver";
-   static final String DB_URL = "jdbc:derby://localhost:1527/virtualLibrary";
 
    //  Database credentials
    
@@ -230,6 +229,7 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
             for(int i=0; i < publisherArrayList.size()-1;i++){
                 System.out.println(publisherArrayList.get(i));
             }
+            System.out.println("\nEnter Your Selection:\n");
             Scanner input = new Scanner(System.in);
             String userInput;
             userInput = input.nextLine();
@@ -246,7 +246,6 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
                     
                     System.out.println("Publisher: " + pubNamee + ", Address: " + pubAddress + ", Phone: " + pubPhone + ", Email: " + pubEmail);
                 }
-                System.out.println("\nEnter Your Selection:\n");
                 sql = "SELECT groupName, headWriter, yearFormed, subject, bookTitle, yearPublished, numberOfPages From Publisher Natural Join WritingGroup Natural Join Books Where PublisherName = " + "('" + userInput + "')";
                 rs = stmt.executeQuery(sql);
                 while(rs.next()){
