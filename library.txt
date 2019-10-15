@@ -32,6 +32,7 @@ CREATE TABLE Books (
         REFERENCES Publisher (publisherName)
 );
 
+-- Candidate key - add unique key constraint
 ALTER TABLE Books
 ADD CONSTRAINT Books_UK UNIQUE (bookTitle, publisherName);
 
@@ -45,7 +46,7 @@ INSERT INTO WritingGroup
 
 -- Data for Publisher
 INSERT INTO Publisher
-    VALUES ('Greenway Press', '123 Christmas Way', '(718) 880-4321', 'info@gree0nwaypress.com'),
+    VALUES ('Greenway Press', '123 Christmas Way', '(718) 880-4321', 'info@greenwaypress.com'),
            ('Biggg Publishers', '1020 Blitz Lane', '(123) 111-2020', 'bigemail@bigggpublishers.com'),
            ('Ogres', 'Swamp Avenue', '(212) 808-5050', 'iman@ogre.com'),
            ('The Publishers Pub', '010 Pattys Circle', '(111) 222-3333', NULL),
