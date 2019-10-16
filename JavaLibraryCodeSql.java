@@ -35,7 +35,7 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
             System.out.println(LIST + "\n");
             System.out.println("Enter an option: ");
             userInput = inputs.nextLine();
-            int userInputAsInt = Integer.parseInt(userInput);
+            Integer.parseInt(userInput);
 	}
        		 
 	// Catch exception if input isn't an int
@@ -186,7 +186,7 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
             int pubCount = 1;
             while(rs.next()){
                 
-                //Display values
+                // Retrieve data by column name and display values
                 System.out.println("Publisher #" + pubCount + ": " + rs.getString("publisherName"));
                 pubCount++;
             }
@@ -304,15 +304,16 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
    Statement stmt = null;
    try{
       
-      // Open a database connection and create statement 
-      conn = DriverManager.getConnection(DB_URL,USER,PASS);
-      stmt = conn.createStatement();
-      
       boolean inMainMenu = true;
       int MenuSelection = 0;
 		 
       // this creates a main menu that is to be used by the user
       while (inMainMenu) {
+          
+        // Open a database connection and create statement 
+        conn = DriverManager.getConnection(DB_URL,USER,PASS);
+        stmt = conn.createStatement();
+        
 	boolean validInput = false;
 	while(!validInput) {
             MenuSelection = MenuTest();
