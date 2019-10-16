@@ -14,7 +14,7 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
    static final String PASS = "books123";
    
    //main menu list
-   private final static String LIST = ("Select One of the following options (insert a number):\n1. "
+   private final static String LIST = ("Select one of the following options (insert a number):\n1. "
 	+ "List all writing groups\n2. List all the data for a specific writing group"
 	+ "\n3. List all Publishers\n4. List all the data for a specific publisher"
 	+ "\n5. List all book titles\n6. List all the data for a specific book"
@@ -29,27 +29,26 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
     * @return a number between 1 and 8 else return 0
     */
     public static int MenuTest() {
-	String userInput;
+        String userInput;
+        
 	try {
             System.out.println(LIST + "\n");
             System.out.println("Enter an option: ");
             userInput = inputs.nextLine();
+            int userInputAsInt = Integer.parseInt(userInput);
 	}
-		 
-	//catch exception if input isn't an int
+       		 
+	// Catch exception if input isn't an int
 	catch(InputMismatchException | NumberFormatException exception) {
-            System.out.println("That is not a valid input, please input a number.");
+            System.out.println("That is not a valid input, please input a number.\n");
             return 0;
 	}
 		 
-	//changes user input to an int and checks if it is between numbers 1 and 10
-	int userInputAsInt = Integer.parseInt(userInput);
-		 
-	if(userInputAsInt > 0 && userInputAsInt <= 10) {
-            return userInputAsInt;
+	if(Integer.parseInt(userInput) >= 1 && Integer.parseInt(userInput) <= 10) {
+            return Integer.parseInt(userInput);
 	}
 	
-	System.out.println("This is not a number between 1 and 10");
+	System.out.println("That is not a number between 1 and 10. Please try again.\n");
         return 0;
     }
 	
@@ -62,12 +61,9 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
 	if (Option == 1) {
             
             try{
-            // Open a database connection
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);
             
             // Execute a query
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT groupName, headWriter, yearFormed, subject FROM WritingGroup");
+            ResultSet rs = stmt.executeQuery("SELECT groupName FROM WritingGroup");
             
             // Extract data from result set
             int groupCount = 1; // Counter used for numbered display (e.g. group #1, #2...)
@@ -115,8 +111,6 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
             String userInput = inputs.nextLine();
             
             try{
-            // Open a database connection
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
             // Prepared statements
             PreparedStatement myStmt = conn.prepareStatement("SELECT * FROM Books NATURAL JOIN WritingGroup"
@@ -136,11 +130,11 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
                     System.out.println("Head writer: " + rs.getString("headWriter"));
                     System.out.println("Year formed: " + rs.getString("yearFormed"));
                     System.out.println("Subject of focus: " + rs.getString("subject") + "\n");
-                    System.out.println("Books & publishers associated with " + userInput + ": ");
+                    System.out.println("Books & publishers associated with \"" + userInput + "\": ");
                 }
                 
                 //Retrieve data by column name and display values
-                System.out.println("Book #" + bookCount+1 + ": " + rs.getString("bookTitle") + ", "
+                System.out.println("Book #" + (bookCount+1) + ": " + rs.getString("bookTitle") + ", "
                         + rs.getString("numberOfPages") + " pages. @" + rs.getString("yearPublished") + " "
                         + rs.getString("publisherName") + " (" + rs.getString("publisherAddress") + ", "
                         + rs.getString("publisherPhone") + ", " + rs.getString("publisherEmail") + ")");
@@ -151,11 +145,13 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
             if (bookCount == 0) {
                 System.out.println("\nThat writing group does not exist.");
             }
-            System.out.println();
-            //STEP 6: Clean-up environment
+            System.out.println(); // Print new line to add white space before next menu print
+            
+            // Close environments
             rs.close();
             stmt.close();
             conn.close();
+            
             }catch(SQLException se){
             //Handle errors for JDBC
             se.printStackTrace();
@@ -175,52 +171,32 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
             }catch(SQLException se){
                 se.printStackTrace();
             }//end finally try
-            }//end try
-            	
+            }//end try 	
 	}
-        
-        
-        //List all Publishers -----------------------------------------------------------
+
+        // Option 3: List all Publishers
 	else if (Option == 3) {
             
             try{
-                
-            //STEP 2: Register JDBC driver
-            Class.forName(JDBC_DRIVER);
-
-            //STEP 3: Open a connection
-            System.out.println("Connecting to database...");
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+           
+            // Execute query
+            ResultSet rs = stmt.executeQuery("SELECT publisherName FROM Publisher");
             
-            //STEP 4: Execute a query
-            System.out.println("Creating statement...");
-            stmt = conn.createStatement();
-            
-            String sql;
-            sql = "SELECT publisherName FROM Publisher";
-            ResultSet rs = stmt.executeQuery(sql);
-            
-            //STEP 5: Extract data from result set
+            // Extract data from result set
             int pubCount = 1;
             while(rs.next()){
-                //Retrieve by column name
-                String pubName  = rs.getString("publisherName");
-                //String headWriter = rs.getString("headWriter");
-                //String year = rs.getString("yearFormed");
-                //String subject = rs.getString("subject");
-
+                
                 //Display values
-                System.out.println("Publisher #" + pubCount + ": " + pubName);
-                //System.out.print(", Head Writer: " + headWriter);
-                //System.out.print(", Year Made: " + year);
-                //System.out.println(", Subject: " + subject);
+                System.out.println("Publisher #" + pubCount + ": " + rs.getString("publisherName"));
                 pubCount++;
             }
-            System.out.println();
-            //STEP 6: Clean-up environment
+            System.out.println(); // Print new line to add white space before next menu print
+            
+            // Close environments
             rs.close();
             stmt.close();
             conn.close();
+            
             }catch(SQLException se){
             //Handle errors for JDBC
             se.printStackTrace();
@@ -240,10 +216,8 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
             }catch(SQLException se){
                 se.printStackTrace();
             }//end finally try
-            }//end try
-			
+            }//end try	
 	}
-        
         
         //List all the data for a specific publisher--------------------------------------
 	else if (Option == 4) {
@@ -253,6 +227,51 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
         
         //List all book titles---------------------------------------------------------------
 	else if (Option == 5) {
+            
+            try{
+            // Open a database connection
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            
+            // Execute a query
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT bookTitle FROM Books");
+            
+            // Extract data from result set
+            int bookCount = 1; // Counter used for numbered display (e.g. group #1, #2...)
+            while(rs.next()){
+
+                // Retrieve data by column name and display values
+                System.out.println("Book #" + bookCount + ": " + rs.getString("bookTitle"));
+                bookCount++;
+            }
+            System.out.println(); // Print new line to add white space before next menu print
+            
+            // Close environment
+            rs.close();
+            stmt.close();
+            conn.close();
+            
+            }
+            catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+            }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+            }finally{
+            //finally block used to close resources
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }catch(SQLException se2){
+            }// nothing we can do
+            try{
+                if(conn!=null)
+                conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }//end finally try
+            }//end try
 			
 	}
         
@@ -284,15 +303,9 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
    Connection conn = null;
    Statement stmt = null;
    try{
-      //STEP 2: Register JDBC driver
-      Class.forName(JDBC_DRIVER);
-
-      //STEP 3: Open a connection
-      System.out.println("Connecting to database...");
-      conn = DriverManager.getConnection(DB_URL,USER,PASS);
       
-      //STEP 4: Execute a query
-      System.out.println("Creating statement...");
+      // Open a database connection and create statement 
+      conn = DriverManager.getConnection(DB_URL,USER,PASS);
       stmt = conn.createStatement();
       
       boolean inMainMenu = true;
