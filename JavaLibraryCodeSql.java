@@ -16,19 +16,20 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
    
    //main menu list
    private final static String LIST = ("Select One of the following options (insert a number):\n1. "
-	+ "List all writing groups\n2. List all the data for a specific group"
+	+ "List all writing groups\n2. List all the data for a specific writing group"
 	+ "\n3. List all Publishers\n4. List all the data for a specific publisher"
 	+ "\n5. List all book titles\n6. List all the data for a specific book"
 	+ "\n7. Insert a new book \n8. Insert a new publisher and update all books "
 	+ "published by one publisher to be published by the new pubisher \n9. Remove a book \n10. Done");
-	
-	
+   
+   // Global scanner for user input
+   static Scanner inputs = new Scanner(System.in);
+
     /**
     * will return a number that is in the list
     * @return a number between 1 and 8 else return 0
     */
     public static int MenuTest() {
-	Scanner inputs = new Scanner (System.in);
 	String userInput;
 	try {
             System.out.println(LIST + "\n");
@@ -57,42 +58,99 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
     * List of options presented from the menu that the user selected
     */
     public static void MenuOptionSelected(int Option, Connection conn, Statement stmt) {
-        
-        //option to list all writing groups-----------------------------------------
+
+        // Option 1: List all writing groups
 	if (Option == 1) {
             
             try{
-                
-            //STEP 2: Register JDBC driver
-            Class.forName(JDBC_DRIVER);
-
-            //STEP 3: Open a connection
-            System.out.println("Connecting to database...");
+            // Open a database connection
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
             
-            //STEP 4: Execute a query
-            System.out.println("Creating statement...");
+            // Execute a query
             stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT groupName, headWriter, yearFormed, subject FROM WritingGroup");
             
-            String sql;
-            sql = "SELECT groupName, headWriter, yearFormed, subject FROM WritingGroup";
-            ResultSet rs = stmt.executeQuery(sql);
-            
-            //STEP 5: Extract data from result set
-            int groupCount = 1;
+            // Extract data from result set
+            int groupCount = 1; // Counter used for numbered display (e.g. group #1, #2...)
             while(rs.next()){
-                //Retrieve by column name
-                String groupName  = rs.getString("groupName");
-                //String headWriter = rs.getString("headWriter");
-                //String year = rs.getString("yearFormed");
-                //String subject = rs.getString("subject");
 
-                //Display values
-                System.out.println("Writing group #" + groupCount + ": " + groupName);
-                //System.out.print(", Head Writer: " + headWriter);
-                //System.out.print(", Year Made: " + year);
-                //System.out.println(", Subject: " + subject);
+                // Retrieve data by column name and display values
+                System.out.println("Writing group #" + groupCount + ": " + rs.getString("groupName"));
                 groupCount++;
+            }
+            System.out.println(); // Print new line to add white space before next menu print
+            
+            // Close environment
+            rs.close();
+            stmt.close();
+            conn.close();
+            
+            }
+            catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+            }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+            }finally{
+            //finally block used to close resources
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }catch(SQLException se2){
+            }// nothing we can do
+            try{
+                if(conn!=null)
+                conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }//end finally try
+            }//end try
+	}
+        
+        // Option 2: List all the data for a specific writing group
+	else if (Option == 2) {
+            
+            // Get a writing group from the user
+            System.out.println("Enter a writing group: ");
+            String userInput = inputs.nextLine();
+            
+            try{
+            // Open a database connection
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            // Prepared statements
+            PreparedStatement myStmt = conn.prepareStatement("SELECT * FROM Books NATURAL JOIN WritingGroup"
+                    + " NATURAL JOIN Publisher WHERE groupName = ?");
+            myStmt.setString(1, userInput);
+                          
+            // Execute queries
+            ResultSet rs = myStmt.executeQuery();
+
+            boolean initialDisplay = true;
+            int bookCount = 0;
+            while(rs.next()){
+                
+                // Extract and display data from result set
+                if (initialDisplay) {
+                    System.out.println("\nInformation regarding \"" + userInput + "\":");
+                    System.out.println("Head writer: " + rs.getString("headWriter"));
+                    System.out.println("Year formed: " + rs.getString("yearFormed"));
+                    System.out.println("Subject of focus: " + rs.getString("subject") + "\n");
+                    System.out.println("Books & publishers associated with " + userInput + ": ");
+                }
+                
+                //Retrieve data by column name and display values
+                System.out.println("Book #" + bookCount+1 + ": " + rs.getString("bookTitle") + ", "
+                        + rs.getString("numberOfPages") + " pages. @" + rs.getString("yearPublished") + " "
+                        + rs.getString("publisherName") + " (" + rs.getString("publisherAddress") + ", "
+                        + rs.getString("publisherPhone") + ", " + rs.getString("publisherEmail") + ")");
+
+                initialDisplay = false;
+                bookCount++;
+            }
+            if (bookCount == 0) {
+                System.out.println("\nThat writing group does not exist.");
             }
             System.out.println();
             //STEP 6: Clean-up environment
@@ -119,11 +177,7 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
                 se.printStackTrace();
             }//end finally try
             }//end try
-	}
-        
-        //List all the data for a specific group---------------------------------------
-	else if (Option == 2) {
-			
+            	
 	}
         
         
