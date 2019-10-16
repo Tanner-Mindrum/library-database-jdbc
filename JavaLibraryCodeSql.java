@@ -8,8 +8,11 @@ import java.util.ArrayList;
 
 public class JavaLibraryCodeSql { // JDBC driver name and database URL
    static final String JDBC_DRIVER = "org.apache.derby.jdbc.ClientDriver";
+   static final String DB_URL = "jdbc:derby://localhost:1527/WritingProjects";
 
    //  Database credentials
+   static final String USER = "newuser";
+   static final String PASS = "newpass";
    
    //main menu list
    private final static String LIST = ("Select One of the following options (insert a number):\n1. "
