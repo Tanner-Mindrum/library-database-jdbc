@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class JavaLibraryCodeSql { // JDBC driver name and database URL
-      static final String JDBC_DRIVER = "org.apache.derby.jdbc.ClientDriver";
+         static final String JDBC_DRIVER = "org.apache.derby.jdbc.ClientDriver";
    static final String DB_URL = "jdbc:derby://localhost:1527/virtualLibrary";
 
    //  Database credentials
@@ -253,52 +253,6 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
                 //System.out.println(", Subject: " + subject);
                // pubCount++;
 
-
-            }
-            boolean flag = true;
-            while(flag){
-            System.out.println("Please select a publisher to display:\n");
-            for(int i=0; i < publisherArrayList.size()-1;i++){
-                System.out.println(publisherArrayList.get(i));
-            }
-            System.out.println("\nEnter Your Selection:\n");
-            Scanner input = new Scanner(System.in);
-            String userInput;
-            userInput = input.nextLine();
-            
-            if(publisherArrayList.contains(userInput)){
-                PreparedStatement myStmt = conn.prepareStatement("SELECT publisherName, publisherAddress, publisherPhone, PublisherEmail FROM Publisher Where PublisherName = ?");
-                myStmt.setString(1, userInput);
-                
-                rs = myStmt.executeQuery();
-                while(rs.next()){
-                    String pubNamee = rs.getString("publisherName");
-                    String pubAddress = rs.getString("publisherAddress");
-                    String pubPhone = rs.getString("publisherPhone");
-                    String pubEmail = rs.getString("publisherEmail");
-                    
-                    System.out.println("Publisher: " + pubNamee + ", Address: " + pubAddress + ", Phone: " + pubPhone + ", Email: " + pubEmail);
-                }
-                myStmt = conn.prepareStatement("SELECT groupName, headWriter, yearFormed, subject, bookTitle, yearPublished, numberOfPages From Books Natural Join Publisher Natural Join WritingGroup Where PublisherName = ?");
-                myStmt.setString(1, userInput);
-                rs = myStmt.executeQuery();
-                while(rs.next()){
-                    String groupName = rs.getString("groupName");
-                    String headWriter = rs.getString("headWriter");
-                    String yearFormed = rs.getString("yearFormed");
-                    String subject = rs.getString("subject");
-                    String bookTitle = rs.getString("bookTitle");
-                    String yearPublished = rs.getString("yearPublished");
-                    String numberPages = rs.getString("numberOfPages");
-                    
-                    System.out.println("Group Name: " + groupName + ", Head Writer: " + headWriter + ", Year Formed: " + yearFormed + ", Subject : " + subject + ""
-                            + ", Book Title: " + bookTitle + ", Year Published: " + yearPublished + ", Number of Pages: " + numberPages);
-                }
-                flag = false;
-            }
-            else{
-                System.out.println("This is publisher does not exist");
-            }
             }
             boolean flag = true;
             while(flag){
@@ -456,7 +410,6 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
                 //System.out.println(", Subject: " + subject);
                // pubCount++;
 
-
             }
             boolean flag = true;
             while(flag){
@@ -464,15 +417,6 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
             for(int i=0; i < BookArrayList.size();i++){
                 System.out.println(BookArrayList.get(i));
             }
-
-            }
-            boolean flag = true;
-            while(flag){
-            System.out.println("Please select a Book to display:\n");
-            for(int i=0; i < BookArrayList.size()-1;i++){
-                System.out.println(BookArrayList.get(i));
-            }
-
             System.out.println("\nEnter Your Selection:\n");
             Scanner input = new Scanner(System.in);
             String userInput;
