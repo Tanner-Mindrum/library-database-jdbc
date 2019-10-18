@@ -14,6 +14,7 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
    static final String USER = "newuser";
    static final String PASS = "newpass";
    
+   
    //main menu list
    private final static String LIST = ("Select One of the following options (insert a number):\n1. "
 	+ "List all writing groups\n2. List all the data for a specific writing group"
@@ -364,12 +365,14 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
         
         //Insert a new book--------------------------------------------------------------------
         else if (Option == 7){
+            
         }
         
         
         //Insert a new publisher and update all books published by one publisher
         //to be published by the new pubisher-----------------------------------------------------
         else if (Option == 8){
+            
         }
         
         
@@ -384,6 +387,7 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
    Connection conn = null;
    Statement stmt = null;
    try{
+<<<<<<< Updated upstream
       //STEP 2: Register JDBC driver
       Class.forName(JDBC_DRIVER);
 
@@ -395,11 +399,27 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
       System.out.println("Creating statement...");
       stmt = conn.createStatement();
       
+=======
+     
+>>>>>>> Stashed changes
       boolean inMainMenu = true;
       int MenuSelection = 0;
 		 
       // this creates a main menu that is to be used by the user
       while (inMainMenu) {
+<<<<<<< Updated upstream
+=======
+        //STEP 2: Register JDBC driver
+        Class.forName(JDBC_DRIVER);
+
+        //STEP 3: Open a connection
+        System.out.println("Connecting to database...");
+        conn = DriverManager.getConnection(DB_URL,USER,PASS);
+      
+        //STEP 4: Execute a query
+        System.out.println("Creating statement...");
+        stmt = conn.createStatement();
+>>>>>>> Stashed changes
 	boolean validInput = false;
 	while(!validInput) {
             MenuSelection = MenuTest();
