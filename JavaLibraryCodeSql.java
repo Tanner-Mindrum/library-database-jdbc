@@ -253,7 +253,7 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
                 //System.out.println(", Subject: " + subject);
                // pubCount++;
 
-<<<<<<< HEAD
+
             }
             boolean flag = true;
             while(flag){
@@ -299,7 +299,6 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
             else{
                 System.out.println("This is publisher does not exist");
             }
-=======
             }
             boolean flag = true;
             while(flag){
@@ -345,7 +344,6 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
             else{
                 System.out.println("This is publisher does not exist");
             }
->>>>>>> 9eb55ef8f03e31e680e122c3c6891f3021aa4e10
             }            
             //System.out.println();
             //STEP 6: Clean-up environment
@@ -458,7 +456,7 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
                 //System.out.println(", Subject: " + subject);
                // pubCount++;
 
-<<<<<<< HEAD
+
             }
             boolean flag = true;
             while(flag){
@@ -466,7 +464,7 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
             for(int i=0; i < BookArrayList.size();i++){
                 System.out.println(BookArrayList.get(i));
             }
-=======
+
             }
             boolean flag = true;
             while(flag){
@@ -474,7 +472,7 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
             for(int i=0; i < BookArrayList.size()-1;i++){
                 System.out.println(BookArrayList.get(i));
             }
->>>>>>> 9eb55ef8f03e31e680e122c3c6891f3021aa4e10
+
             System.out.println("\nEnter Your Selection:\n");
             Scanner input = new Scanner(System.in);
             String userInput;
