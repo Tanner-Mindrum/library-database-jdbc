@@ -258,7 +258,7 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
             boolean flag = true;
             while(flag){
             System.out.println("Please select a publisher to display:\n");
-            for(int i=0; i < publisherArrayList.size()-1;i++){
+            for(int i=0; i < publisherArrayList.size();i++){
                 System.out.println(publisherArrayList.get(i));
             }
             System.out.println("\nEnter Your Selection:\n");
@@ -701,7 +701,84 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
         
         //Remove a book----------------------------------------------------------------------------
 	else {
+            try{
+            //STEP 2: Register JDBC driver
+            Class.forName(JDBC_DRIVER);
+            //STEP 3: Open a connection
+            System.out.println("Connecting to database...");
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);   
+
+            //STEP 4: Execute a query
+            System.out.println("Creating statement...");
+            stmt = conn.createStatement();          
+            String sql;
+            sql = "SELECT * From Books";
+            ResultSet rs = stmt.executeQuery(sql);
+            ArrayList<String> BookArrayList = new ArrayList<String>();
+            //STEP 5: Extract data from result set
+            //int pubCount = 1;
+            while(rs.next()){
+                //Retrieve by column name
+                String BookTitle  = rs.getString("BookTitle");                
+                BookArrayList.add(BookTitle);
+                //String headWriter = rs.getString("headWriter");
+                //String year = rs.getString("yearFormed");
+                //String subject = rs.getString("subject");
+                //Display values
+                //System.out.println("Publisher #" + pubCount + ": " + pubName);
+                //System.out.print(", Head Writer: " + headWriter);
+                //System.out.print(", Year Made: " + year);
+                //System.out.println(", Subject: " + subject);
+               // pubCount++;
+
+            }
+            boolean flag = true;
+            while(flag){
+            System.out.println("Please select a Book to display:\n");
+            for(int i=0; i < BookArrayList.size();i++){
+                System.out.println(BookArrayList.get(i));
+            }
+            System.out.println("\nEnter Your Selection:\n");
+            Scanner input = new Scanner(System.in);
+            String userInput;
+            userInput = input.nextLine();
             
+            if(BookArrayList.contains(userInput)){
+                PreparedStatement myStmt = conn.prepareStatement("DELETE FROM Books WHERE bookTitle = ?");
+                myStmt.setString(1, userInput);
+                myStmt.executeUpdate();
+                myStmt.close();
+                flag = false;
+            }
+            else{
+                System.out.println("This is Book does not exist");
+            }
+            }            
+            //System.out.println();
+            //STEP 6: Clean-up environment
+            rs.close();
+            stmt.close();
+            conn.close();
+            }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+            }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+            }finally{
+            //finally block used to close resources
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }catch(SQLException se2){
+            }// nothing we can do
+            try{
+                if(conn!=null)
+                conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }//end finally try
+            }//end try
 	}
     }
 
@@ -716,7 +793,15 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
 		 
       // this creates a main menu that is to be used by the user
       while (inMainMenu) {
+        //STEP 2: Register JDBC driver
+        Class.forName(JDBC_DRIVER);
+
+        //STEP 3: Open a connection
+        System.out.println("Connecting to database...");
         conn = DriverManager.getConnection(DB_URL,USER,PASS);
+      
+        //STEP 4: Execute a query
+        System.out.println("Creating statement...");
         stmt = conn.createStatement();
 	boolean validInput = false;
 	while(!validInput) {
