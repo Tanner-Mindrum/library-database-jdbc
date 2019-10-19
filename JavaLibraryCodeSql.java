@@ -220,6 +220,7 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
             }//end try	
 	}
         
+        
         //List all the data for a specific publisher--------------------------------------
 	else if (Option == 4) {
                         
@@ -584,19 +585,123 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
                 se.printStackTrace();
             }//end finally try
             }//end try
-
         }
         
         
         //Insert a new publisher and update all books published by one publisher
         //to be published by the new pubisher-----------------------------------------------------
         else if (Option == 8){
+           try{
+            //STEP 2: Register JDBC driver
+            Class.forName(JDBC_DRIVER);
+            //STEP 3: Open a connection
+            System.out.println("Connecting to database...");
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);   
+
+            //STEP 4: Execute a query
+            System.out.println("Creating statement...");
+            stmt = conn.createStatement();          
+            // Prepared statements
+            Scanner input = new Scanner(System.in);
+             String publisherInput="";
+            // String updatedPublisherInput="";
+            boolean pubFound=false;
+            while(pubFound==false){
+            System.out.println("\nEnter an existing publisher name:\n");
+            publisherInput = input.nextLine();
+            //System.out.println("\nEnter the new publisher:\n");
+              //updatedPublisherInput = input.nextLine();
+           
+              PreparedStatement allGroups = conn.prepareStatement("SELECT * FROM WritingGroup"
+                    + " NATURAL JOIN Publisher WHERE publisherName = ?");
+              allGroups.setString(1,publisherInput);
+              //allGroups.setString(2, updatedPublisherInput);
+              ResultSet rs = allGroups.executeQuery();
+              int count=0;
+              if (rs.next()){
+                  count++;
+               }
+              if(count>0){
+                  pubFound=true;
+              }else if(count==0){
+                  System.out.println("Sorry! That writing group or publisher does not exist");
+              }
+            }
+            
+            String updatedPublisherInput="";
+            boolean pubExists=true;
+            while(pubExists==true){
+              System.out.println("\nEnter a new publisher:\n");
+              updatedPublisherInput = input.nextLine();
+              PreparedStatement allPublishers=conn.prepareStatement("SELECT * FROM Publisher WHERE publisherName = ?");
+              allPublishers.setString(1,updatedPublisherInput);
+              //allPublishers.setString(2, titleInput);
+              ResultSet rs = allPublishers.executeQuery();
+              int count=0;
+              if (rs.next()){
+                  count++;
+               }
+              if(count>0){
+                  System.out.println("Sorry! That book already exists for writing group "+ updatedPublisherInput);
+              }else if(count==0){
+                  pubExists=false;
+              }
+            }
+            
+            System.out.println("\nEnter the publisher's address:\n");
+            String addressInput = input.nextLine();
+            System.out.println("\nEnter the publisher's phone number:\n");
+            String phoneInput = input.nextLine();
+            System.out.println("\nEnter the publisher's email:\n");
+            String emailInput = input.nextLine();
+            
+            String sql="INSERT INTO Publisher(publisherName,publisherAddress,publisherPhone,"
+                    + "publisherEmail)VALUES(?,?,?,?)";
+            PreparedStatement myStmt = conn.prepareStatement(sql);
+            myStmt.clearParameters();
+            myStmt.setString(1,updatedPublisherInput);
+            myStmt.setString(2, addressInput);
+            myStmt.setString(3, phoneInput);
+            myStmt.setString(4, emailInput);
+            myStmt.executeUpdate();
+            myStmt.close();
+            
+            PreparedStatement lastStmt = conn.prepareStatement("UPDATE Books SET publisherName = ? WHERE publisherName = ?");
+            lastStmt.setString(1,updatedPublisherInput);
+            lastStmt.setString(2, publisherInput);
+            lastStmt.executeUpdate();
+            lastStmt.close();
+            
+
+            //STEP 6: Clean-up environment
+            stmt.close();
+            conn.close();
+            }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+            }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+            }finally{
+            //finally block used to close resources
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }catch(SQLException se2){
+            }// nothing we can do
+            try{
+                if(conn!=null)
+                conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }//end finally try
+            }//end try
         }
         
         
         //Remove a book----------------------------------------------------------------------------
 	else {
-			
+            
 	}
     }
 
@@ -605,17 +710,14 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
    Connection conn = null;
    Statement stmt = null;
    try{
-      
+     
       boolean inMainMenu = true;
       int MenuSelection = 0;
 		 
       // this creates a main menu that is to be used by the user
       while (inMainMenu) {
-          
-        // Open a database connection and create statement 
         conn = DriverManager.getConnection(DB_URL,USER,PASS);
         stmt = conn.createStatement();
-        
 	boolean validInput = false;
 	while(!validInput) {
             MenuSelection = MenuTest();
