@@ -402,7 +402,7 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
                 while (rs.next()) {
                     System.out.println("Writing group: " + rs.getString("groupName"));
                     writingGroupNames.add(rs.getString("groupName"));
-                    System.out.println("Publisher: " + rs.getString("publisherName"));
+                    System.out.println("Publisher: " + rs.getString("publisherName") + "\n");
                     publisherNames.add(rs.getString("publisherName"));
                 }
                 
@@ -494,7 +494,8 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
                 ArrayList publisherNames = new ArrayList<String>();
                 ArrayList writingGroupNames = new ArrayList<String>();
 
-                ResultSet rs = stmt.executeQuery("SELECT groupName, publisherName FROM Books");
+                ResultSet rs = stmt.executeQuery("SELECT groupName, publisherName FROM WritingGroup"
+                        + " NATURAL JOIN Publisher");
                 while (rs.next()) {
                     writingGroupNames.add(rs.getString("groupName"));
                     publisherNames.add(rs.getString("publisherName"));
@@ -533,7 +534,7 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
                       count++;
                 }
                 if (count > 0) {
-                    System.out.println("Sorry! That book already exists for writing group " + groupNameInput + " or "
+                    System.out.println("Sorry! That book already exists for writing group " + groupNameInput + " or"
                     + " publisher " + publisherInput);
                 }
                 else if (count == 0){
@@ -772,12 +773,12 @@ public class JavaLibraryCodeSql { // JDBC driver name and database URL
             
             // Extract data, display values, and populate array lists
             while (rs.next()) {
-                System.out.println("\n" + bookToRemove + "'s writing group: ");
-                System.out.println(rs.getString("groupName") + "\n");
+                System.out.println(bookToRemove + "'s writing group: ");
+                System.out.println(rs.getString("groupName"));
                 writingGroupNames.add(rs.getString("groupName"));
                 
                 System.out.println(bookToRemove + "'s publisher: ");
-                System.out.println(rs.getString("publisherName"));
+                System.out.println(rs.getString("publisherName") + "\n");
                 publisherNames.add(rs.getString("publisherName"));
             }
             
