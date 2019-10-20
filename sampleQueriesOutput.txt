@@ -1,0 +1,256 @@
+1. List all writing groups
+
+Enter an option: 
+1
+Writing group #1: Cultured Writers
+Writing group #2: Fashionistas
+Writing group #3: Gamerz
+Writing group #4: Seriously Committed
+Writing group #5: We Love Writing!
+
+----------------------------------------------------
+
+2. List all the data for a specific writing group
+
+Enter an option: 
+2
+Select a writing group to display: 
+Cultured Writers
+Fashionistas
+Gamerz
+Seriously Committed
+We Love Writing!
+
+Enter a writing group: 
+We Love Writing!
+
+Information regarding "We Love Writing!":
+Head writer: Buddy Nights
+Year formed: 2012
+Subject of focus: Fiction
+
+Books & publishers associated with "We Love Writing!": 
+Book #1: Elf, 100 pages. @2003 Greenway Press (123 Christmas Way, (718) 880-4321, info@greenwaypress.com)
+Book #2: Writing Manual, 99 pages. @2001 The Publishers Pub (010 Pattys Circle, (111) 222-3333, null)
+Book #3: Elf: Part 2, 100 pages. @2019 Greenway Press (123 Christmas Way, (718) 880-4321, info@greenwaypress.com)
+
+----------------------------------------------------
+
+3. List all publishers
+
+Enter an option: 
+3
+Publisher #1: Biggg Publishers
+Publisher #2: Greenway Press
+Publisher #3: Lastly, Us
+Publisher #4: Ogres
+Publisher #5: The Publishers Pub
+
+----------------------------------------------------
+
+4. List all the data for a specific publisher
+
+Enter an option: 
+4
+Please select a publisher to display:
+
+Greenway Press
+Biggg Publishers
+Ogres
+The Publishers Pub
+Lastly, Us
+
+Enter Your Selection:
+
+Greenway Press
+Publisher: Greenway Press, Address: 123 Christmas Way, Phone: (718) 880-4321, Email: info@greenwaypress.com
+Group Name: We Love Writing!, Head Writer: Buddy Nights, Year Formed: 2012, Subject : Fiction, Book Title: Elf, Year Published: 2003, Number of Pages: 100
+Group Name: We Love Writing!, Head Writer: Buddy Nights, Year Formed: 2012, Subject : Fiction, Book Title: Elf: Part 2, Year Published: 2019, Number of Pages: 100
+
+----------------------------------------------------
+
+5. List all book titles
+
+Enter an option: 
+5
+Book #1: Accessories for Ogres
+Book #2: Book of Steven
+Book #3: Elf
+Book #4: Elf: Part 2
+Book #5: Fashion Mag
+Book #6: Games Over the Years
+Book #7: How to live life: the life
+Book #8: Life as an Ogre
+Book #9: Writing Manual
+Book #10: You and Me
+
+----------------------------------------------------
+
+6. List all the data for a specific book
+
+Enter an option: 
+6
+Please select a Book to display:
+
+Elf
+Life as an Ogre
+Book of Steven
+You and Me
+Fashion Mag
+Writing Manual
+Accessories for Ogres
+How to live life: the life
+Elf: Part 2
+Games Over the Years
+
+Enter Your Selection:
+
+You and Me
+Writing groups and publishers assocaited with You and Me: 
+Writing group: Seriously Committed
+Publisher: Lastly, Us
+
+Enter the writing group or publisher name associated with the book you want to display: 
+Lastly, Us
+Book Title: You and Me, Group Name: Seriously Committed, Publisher Name: Lastly, Us, Year Published: 2016, Number of pages: 250
+Group Name: Seriously Committed, Head Writer: Steven Tanner, Year Formed: 1997, Subject : Non-Fiction, Publisher Name: Lastly, Us, Publisher Address: 000 The Final Destination, Publisher Phone: null, Publisher Email: null
+
+----------------------------------------------------
+
+7. Insert a new book
+
+Enter an option: 
+7
+
+Enter the group name:
+
+Gamerz
+
+Enter the publisher:
+
+Ogres
+
+Enter the book title:
+
+Games for Ogre
+
+Enter the year published:
+
+2003
+
+Enter the number of pages:
+
+104
+Select one of the following options (insert a number):
+1. List all writing groups
+2. List all the data for a specific writing group
+3. List all publishers
+4. List all the data for a specific publisher
+5. List all book titles
+6. List all the data for a specific book
+7. Insert a new book 
+8. Insert a new publisher and update all books published by one publisher to be published by the new pubisher 
+9. Remove a book 
+10. Done
+
+Enter an option: 
+5
+Book #1: Accessories for Ogres
+Book #2: Book of Steven
+Book #3: Elf
+Book #4: Elf: Part 2
+Book #5: Fashion Mag
+Book #6: Games Over the Years
+Book #7: Games for Ogre
+Book #8: How to live life: the life
+Book #9: Life as an Ogre
+Book #10: Writing Manual
+Book #11: You and Me
+ 
+----------------------------------------------------
+
+8. Insert a new publisher and update all books published by one publisher to be published by the new pubisher
+
+Enter an option: 
+8
+
+Enter an existing publisher name:
+
+Ogres
+
+Enter a new publisher:
+
+New and Improved Publisher
+
+Enter the publisher's address:
+
+1234 Street Way
+
+Enter the publisher's phone number:
+
+123456789
+
+Enter the publisher's email:
+
+newemail@email.com
+
+New and Improved Publisher has bought out Ogres. They are now associated with the following books: 
+Book #1: Life as an Ogre, 1000 pages. @2005 New and Improved Publisher (1234 Street Way, 123456789, newemail@email.com)
+Book #2: Accessories for Ogres, 20 pages. @2019 New and Improved Publisher (1234 Street Way, 123456789, newemail@email.com)
+Book #3: Games for Ogre, 104 pages. @2003 New and Improved Publisher (1234 Street Way, 123456789, newemail@email.com)
+
+----------------------------------------------------
+
+9. Remove a book
+
+Enter an option: 
+9
+Current books in our records: 
+Accessories for Ogres
+Book of Steven
+Elf
+Elf: Part 2
+Fashion Mag
+Games Over the Years
+Games for Ogre
+How to live life: the life
+Life as an Ogre
+Writing Manual
+You and Me
+
+Enter a book's title to remove that book from our records: 
+Games for Ogre
+
+Games for Ogre's writing group: 
+Gamerz
+
+Games for Ogre's publisher: 
+New and Improved Publisher
+
+Enter the writing group or publisher name associated with that book: 
+Gamerz
+
+Select one of the following options (insert a number):
+1. List all writing groups
+2. List all the data for a specific writing group
+3. List all publishers
+4. List all the data for a specific publisher
+5. List all book titles
+6. List all the data for a specific book
+7. Insert a new book 
+8. Insert a new publisher and update all books published by one publisher to be published by the new pubisher 
+9. Remove a book 
+10. Done
+
+Enter an option: 
+5
+Book #1: Accessories for Ogres
+Book #2: Book of Steven
+Book #3: Elf
+Book #4: Elf: Part 2
+Book #5: Fashion Mag
+Book #6: Games Over the Years
+Book #7: How to live life: the life
+Book #8: Life as an Ogre
+Book #9: Writing Manual
+Book #10: You and Me
